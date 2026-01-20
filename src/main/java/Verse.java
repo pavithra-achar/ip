@@ -50,7 +50,8 @@ public class Verse {
                     String descTodo = sc.nextLine().trim();
                     Task toDo = new ToDo(descTodo);
                     list.add(toDo);
-                    System.out.println("Verse : " + descTodo + " hath been added to list.");
+                    System.out.print("Verse : " + descTodo + " hath been added to list.");
+                    System.out.println("There are " + list.size() + " tasks in thy list.");
                     break;
 
                 case "deadline" :
@@ -60,7 +61,8 @@ public class Verse {
                     Task deadline = new Deadline(deadlineDetails[0].trim(),
                                                  deadlineDetails[1].substring(2).trim());
                     list.add(deadline);
-                    System.out.println("Verse : " + deadlineDetails[0].trim() + " hath been added to list.");
+                    System.out.print("Verse : " + deadlineDetails[0].trim() + " hath been added to list.");
+                    System.out.println("There are " + list.size() + " tasks in thy list.");
                     break;
 
                 case "event" :
@@ -71,7 +73,8 @@ public class Verse {
                                            eventDetails[1].substring(5).trim(),
                                            eventDetails[2].substring(4).trim());
                     list.add(event);
-                    System.out.println("Verse : " + eventDetails[0].trim() + " hath been added to list.");
+                    System.out.print("Verse : " + eventDetails[0].trim() + " hath been added to list.");
+                    System.out.println("There are " + list.size() + " tasks in thy list.");
                     break;
 
                 default :
