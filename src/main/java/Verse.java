@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Verse {
@@ -7,9 +8,10 @@ public class Verse {
         String farewell = "Till next thou call’st this system forth, farewell.\n";
 
         System.out.println("ACT I - Scene 1");
-        System.out.println(greeting + "\n");
+        System.out.println(greeting);
 
         boolean proceed = true;
+        ArrayList<String> list = new ArrayList<>(100);
 
         Scanner sc = new Scanner(System.in);
 
@@ -19,8 +21,15 @@ public class Verse {
 
             if (sentence.equals("bye")) {
                 proceed = false;
+            } else if (sentence.equals("list")) {
+                System.out.println("Verse : Here lies all that is noted:");
+
+                for (int i = 0; i < list.size(); i++) {
+                    System.out.println((i + 1) + ". " + list.get(i));
+                }
             } else {
-                System.out.println("Verse : " + sentence);
+                list.add(sentence);
+                System.out.println("Verse : " + sentence + " hath been added to list.");
             }
         }
 
