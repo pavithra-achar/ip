@@ -29,7 +29,7 @@ public class Verse {
 
                     for (int i = 0; i < list.size(); i++) {
                         Task t = list.get(i);
-                        System.out.println((i + 1) + ". ["+ t.getStatusIcon() +"] " + t);
+                        System.out.println((i + 1) + ". " + t);
                     }
                     System.out.println();
                     break;
@@ -37,13 +37,13 @@ public class Verse {
                 case "mark" :
                     Task tMark = list.get(sc.nextInt() - 1);
                     tMark.setDoneStatus(true);
-                    System.out.println("Verse : " + tMark + " is now complete.");
+                    System.out.println("Verse : Task is now complete.");
                     break;
 
                 case "unmark" :
                     Task tUnmark = list.get(sc.nextInt() - 1);
                     tUnmark.setDoneStatus(false);
-                    System.out.println("Verse : " + tUnmark + " is no longer complete.");
+                    System.out.println("Verse : Task is no longer complete.");
                     break;
 
                 default :
