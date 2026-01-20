@@ -46,8 +46,36 @@ public class Verse {
                     System.out.println("Verse : Task is no longer complete.");
                     break;
 
+                case "todo" :
+                    String descTodo = sc.nextLine().trim();
+                    Task toDo = new ToDo(descTodo);
+                    list.add(toDo);
+                    System.out.println("Verse : " + descTodo + " hath been added to list.");
+                    break;
+
+                case "deadline" :
+                    String descDeadline = sc.nextLine().trim();
+                    String[] deadlineDetails = descDeadline.split("/");
+
+                    Task deadline = new Deadline(deadlineDetails[0].trim(),
+                                                 deadlineDetails[1].substring(2).trim());
+                    list.add(deadline);
+                    System.out.println("Verse : " + deadlineDetails[0].trim() + " hath been added to list.");
+                    break;
+
+                case "event" :
+                    String descEvent = sc.nextLine().trim();
+                    String[] eventDetails = descEvent.split("/");
+
+                    Task event = new Event(eventDetails[0].trim(),
+                                           eventDetails[1].substring(5).trim(),
+                                           eventDetails[2].substring(4).trim());
+                    list.add(event);
+                    System.out.println("Verse : " + eventDetails[0].trim() + " hath been added to list.");
+                    break;
+
                 default :
-                    sentence = sentence + sc.nextLine();
+                    sentence = sc.nextLine();
                     Task tDefault = new Task(sentence);
                     list.add(tDefault);
                     System.out.println("Verse : " + sentence + " hath been added to list.");
