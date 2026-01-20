@@ -128,6 +128,19 @@ public class Verse {
                         System.out.println("There are " + list.size() + " tasks in thy list.");
                         break;
 
+                    case "delete" :
+                        //index of task to be deleted
+                        int indexDelete = sc.nextInt();
+
+                        //Index out of bounds error
+                        if(indexDelete > list.size())
+                            throw new TaskNotFoundException();
+
+                        Task tDelete = list.remove(indexDelete - 1);
+
+                        System.out.println("Verse : Duly noted. The following task is no longer in the list: \n" + tDelete );
+                        break;
+
                     default:
                         throw new UnknownCommandException();
                 }
