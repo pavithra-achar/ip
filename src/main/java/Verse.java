@@ -19,69 +19,121 @@ public class Verse {
             System.out.print("User : ");
             String sentence = sc.next();
 
-            switch (sentence) {
-                case "bye" :
-                    proceed = false;
-                    break;
+            try {
+                switch (sentence) {
+                    //exit program
+                    case "bye":
+                        proceed = false;
+                        break;
 
-                case "list" :
-                    System.out.println("Verse : Here lies all that is noted:\n");
+                    //display list
+                    case "list":
+                        System.out.println("Verse : Here lies all that is noted:\n");
 
-                    for (int i = 0; i < list.size(); i++) {
-                        Task t = list.get(i);
-                        System.out.println((i + 1) + ". " + t);
-                    }
-                    System.out.println();
-                    break;
+                        for (int i = 0; i < list.size(); i++) {
+                            Task t = list.get(i);
+                            System.out.println((i + 1) + ". " + t);
+                        }
+                        System.out.println();
+                        break;
 
-                case "mark" :
-                    Task tMark = list.get(sc.nextInt() - 1);
-                    tMark.setDoneStatus(true);
-                    System.out.println("Verse : Task is now complete.");
-                    break;
+                    //mark as done
+                    case "mark":
+                        //index of task to be marked as done
+                        int indexMark = sc.nextInt();
 
-                case "unmark" :
-                    Task tUnmark = list.get(sc.nextInt() - 1);
-                    tUnmark.setDoneStatus(false);
-                    System.out.println("Verse : Task is no longer complete.");
-                    break;
+                        //Index out of bounds error
+                        if(indexMark > list.size())
+                            throw new TaskNotFoundException();
 
-                case "todo" :
-                    String descTodo = sc.nextLine().trim();
-                    Task toDo = new ToDo(descTodo);
-                    list.add(toDo);
-                    System.out.print("Verse : " + descTodo + " hath been added to list.");
-                    System.out.println("There are " + list.size() + " tasks in thy list.");
-                    break;
+                        Task tMark = list.get(indexMark - 1);
+                        tMark.setDoneStatus(true);
 
-                case "deadline" :
-                    String descDeadline = sc.nextLine().trim();
-                    String[] deadlineDetails = descDeadline.split("/");
+                        System.out.println("Verse : Task is now complete.");
+                        break;
 
-                    Task deadline = new Deadline(deadlineDetails[0].trim(),
-                                                 deadlineDetails[1].substring(2).trim());
-                    list.add(deadline);
-                    System.out.print("Verse : " + deadlineDetails[0].trim() + " hath been added to list.");
-                    System.out.println("There are " + list.size() + " tasks in thy list.");
-                    break;
+                    //mark as undone
+                    case "unmark":
+                        //index of task to be marked as undone
+                        int indexUnMark = sc.nextInt();
 
-                case "event" :
-                    String descEvent = sc.nextLine().trim();
-                    String[] eventDetails = descEvent.split("/");
+                        //Index out of bounds error
+                        if(indexUnMark > list.size())
+                            throw new TaskNotFoundException();
 
-                    Task event = new Event(eventDetails[0].trim(),
-                                           eventDetails[1].substring(5).trim(),
-                                           eventDetails[2].substring(4).trim());
-                    list.add(event);
-                    System.out.print("Verse : " + eventDetails[0].trim() + " hath been added to list.");
-                    System.out.println("There are " + list.size() + " tasks in thy list.");
-                    break;
+                        Task tUnmark = list.get(sc.nextInt() - 1);
+                        tUnmark.setDoneStatus(false);
 
-                default :
-                    sentence = sc.nextLine();
-                    Task tDefault = new Task(sentence);
-                    list.add(tDefault);
-                    System.out.println("Verse : " + sentence + " hath been added to list.");
+                        System.out.println("Verse : Task is no longer complete.");
+                        break;
+
+                    //Add a todo task
+                    case "todo":
+                        String descTodo = sc.nextLine().trim();
+                        //If description is empty
+                        if(descTodo.isEmpty())
+                            throw new MissingParameterException("Thy todo description shall not be empty.");
+
+                        Task toDo = new ToDo(descTodo);
+                        list.add(toDo);
+
+                        System.out.print("Verse : " + descTodo + " hath been added to list.");
+
+                        //Display number of tasks
+                        System.out.println("There are " + list.size() + " tasks in thy list.");
+                        break;
+
+                    //Add a deadline task
+                    case "deadline":
+                        String descDeadline = sc.nextLine().trim();
+                        String[] deadlineDetails = descDeadline.split("/");
+
+                        //If description is empty
+                        if (deadlineDetails[0].isEmpty())
+                            throw new MissingParameterException("Thy deadline description shall not be empty.");
+                        //If date/time is empty
+                        else if (deadlineDetails.length == 1)
+                            throw new MissingParameterException("Thy date and time shall not be empty.");
+
+                        Task deadline = new Deadline(deadlineDetails[0].trim(),
+                                deadlineDetails[1].substring(2).trim());
+                        list.add(deadline);
+                        System.out.print("Verse : " + deadlineDetails[0].trim() + " hath been added to list.");
+
+                        //Display number of tasks
+                        System.out.println("There are " + list.size() + " tasks in thy list.");
+                        break;
+
+                    case "event":
+                        String descEvent = sc.nextLine().trim();
+                        String[] eventDetails = descEvent.split("/");
+
+                        //If description is empty
+                        if (eventDetails[0].isEmpty())
+                            throw new MissingParameterException("Thy event description shall not be empty.");
+                        //If start date/time is empty
+                        else if (eventDetails.length == 1)
+                            throw new MissingParameterException("Thy starting date and time shall not be empty.");
+                        //If end date/time is empty
+                        else if (eventDetails.length == 2)
+                            throw new MissingParameterException("Thy ending date and time shall not be empty.");
+
+                        Task event = new Event(eventDetails[0].trim(),
+                                eventDetails[1].substring(5).trim(),
+                                eventDetails[2].substring(4).trim());
+                        list.add(event);
+                        System.out.print("Verse : " + eventDetails[0].trim() + " hath been added to list.");
+
+                        //Display number of tasks
+                        System.out.println("There are " + list.size() + " tasks in thy list.");
+                        break;
+
+                    default:
+                        throw new UnknownCommandException();
+                }
+
+            } catch (DukeException e) {
+                System.out.println("Verse : " + e.getMessage());
             }
         }
 
