@@ -61,7 +61,7 @@ public class Verse {
                         if(indexUnMark > list.size())
                             throw new TaskNotFoundException();
 
-                        Task tUnmark = list.get(sc.nextInt() - 1);
+                        Task tUnmark = list.get(indexUnMark - 1);
                         tUnmark.setDoneStatus(false);
 
                         System.out.println("Verse : Task is no longer complete.");
@@ -77,7 +77,7 @@ public class Verse {
                         Task toDo = new ToDo(descTodo);
                         list.add(toDo);
 
-                        System.out.print("Verse : " + descTodo + " hath been added to list.");
+                        System.out.println("Verse : " + descTodo + " hath been added to list.");
 
                         //Display number of tasks
                         System.out.println("There are " + list.size() + " tasks in thy list.");
@@ -98,7 +98,7 @@ public class Verse {
                         Task deadline = new Deadline(deadlineDetails[0].trim(),
                                 deadlineDetails[1].substring(2).trim());
                         list.add(deadline);
-                        System.out.print("Verse : " + deadlineDetails[0].trim() + " hath been added to list.");
+                        System.out.println("Verse : " + deadlineDetails[0].trim() + " hath been added to list.");
 
                         //Display number of tasks
                         System.out.println("There are " + list.size() + " tasks in thy list.");
@@ -120,9 +120,9 @@ public class Verse {
 
                         Task event = new Event(eventDetails[0].trim(),
                                 eventDetails[1].substring(5).trim(),
-                                eventDetails[2].substring(4).trim());
+                                eventDetails[2].substring(3).trim());
                         list.add(event);
-                        System.out.print("Verse : " + eventDetails[0].trim() + " hath been added to list.");
+                        System.out.println("Verse : " + eventDetails[0].trim() + " hath been added to list.");
 
                         //Display number of tasks
                         System.out.println("There are " + list.size() + " tasks in thy list.");

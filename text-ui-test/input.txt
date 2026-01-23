@@ -1,0 +1,11 @@
+todo write an essay
+event birthday /from 4pm /to 8pm
+deadline project due /by friday
+list
+mark 1
+list
+unmark 1
+list
+delete 2
+list
+bye
