@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -211,15 +212,25 @@ public class Verse {
 
     LocalDateTime parseDateTime(String dateTimeString) throws MissingParameterException {
         LocalDateTime dateTime;
+
+        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        DateTimeFormatter dFormatter  = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
         try {
-            DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-            dateTime = LocalDateTime.parse(dateTimeString, formatter);
-        } catch (DateTimeParseException e) {
-            throw new MissingParameterException(
-                    "Thy time must follow the form dd-mm-yyyy HH:mm (24-hour clock)."
-            );
+            // Try full datetime first
+            dateTime = LocalDateTime.parse(dateTimeString, dtFormatter);
+        } catch (DateTimeParseException e1) {
+            try {
+                // fallback to date only → default time 23:59
+                LocalDate date = LocalDate.parse(dateTimeString, dFormatter);
+                dateTime = date.atTime(23, 59);
+            } catch (DateTimeParseException e2) {
+                throw new MissingParameterException(
+                    "Thy time must follow dd-mm-yyyy or dd-mm-yyyy HH:mm format."
+                );
+            }
         }
+
         return dateTime;
     }
 }
