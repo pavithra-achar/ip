@@ -1,8 +1,14 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
 
 public class Verse {
+    private boolean proceed = true;
+    private ArrayList<Task> list;
+
     public static void main(String[] args) {
+        Verse bot = new Verse();
+
         String greeting = "Good day user, I am Verse. Thy words await my wit.\n" +
                 "Speak, and declare thy query.\n";
         String farewell = "Till next thou call’st this system forth, farewell.\n";
@@ -10,143 +16,28 @@ public class Verse {
         System.out.println("ACT I - Scene 1");
         System.out.println(greeting);
 
-        boolean proceed = true;
-        ArrayList<Task> list = new ArrayList<>(100);
+        bot.list = new ArrayList<>(100);
 
         Scanner sc = new Scanner(System.in);
 
-        while (proceed) {
+        while (bot.proceed) {
             System.out.print("User : ");
-            String sentence = sc.next();
-
+            String sentence = sc.nextLine();
+            String[] command = sentence.split(" ", 2);
             try {
-                switch (sentence) {
-                    //exit program
-                    case "bye":
-                        proceed = false;
-                        break;
-
-                    //display list
-                    case "list":
-                        System.out.println("Verse : Here lies all that is noted:\n");
-
-                        for (int i = 0; i < list.size(); i++) {
-                            Task t = list.get(i);
-                            System.out.println((i + 1) + ". " + t);
-                        }
-                        System.out.println();
-                        break;
-
-                    //mark as done
-                    case "mark":
-                        //index of task to be marked as done
-                        int indexMark = sc.nextInt();
-
-                        //Index out of bounds error
-                        if(indexMark > list.size())
-                            throw new TaskNotFoundException();
-
-                        Task tMark = list.get(indexMark - 1);
-                        tMark.setDoneStatus(true);
-
-                        System.out.println("Verse : Task is now complete.");
-                        break;
-
-                    //mark as undone
-                    case "unmark":
-                        //index of task to be marked as undone
-                        int indexUnMark = sc.nextInt();
-
-                        //Index out of bounds error
-                        if(indexUnMark > list.size())
-                            throw new TaskNotFoundException();
-
-                        Task tUnmark = list.get(indexUnMark - 1);
-                        tUnmark.setDoneStatus(false);
-
-                        System.out.println("Verse : Task is no longer complete.");
-                        break;
-
-                    //Add a todo task
-                    case "todo":
-                        String descTodo = sc.nextLine().trim();
-                        //If description is empty
-                        if(descTodo.isEmpty())
-                            throw new MissingParameterException("Thy todo description shall not be empty.");
-
-                        Task toDo = new ToDo(descTodo);
-                        list.add(toDo);
-
-                        System.out.println("Verse : " + descTodo + " hath been added to list.");
-
-                        //Display number of tasks
-                        System.out.println("There are " + list.size() + " tasks in thy list.");
-                        break;
-
-                    //Add a deadline task
-                    case "deadline":
-                        String descDeadline = sc.nextLine().trim();
-                        String[] deadlineDetails = descDeadline.split("/");
-
-                        //If description is empty
-                        if (deadlineDetails[0].isEmpty())
-                            throw new MissingParameterException("Thy deadline description shall not be empty.");
-                        //If date/time is empty
-                        else if (deadlineDetails.length == 1)
-                            throw new MissingParameterException("Thy date and time shall not be empty.");
-
-                        Task deadline = new Deadline(deadlineDetails[0].trim(),
-                                deadlineDetails[1].substring(2).trim());
-                        list.add(deadline);
-                        System.out.println("Verse : " + deadlineDetails[0].trim() + " hath been added to list.");
-
-                        //Display number of tasks
-                        System.out.println("There are " + list.size() + " tasks in thy list.");
-                        break;
-
-                    case "event":
-                        String descEvent = sc.nextLine().trim();
-                        String[] eventDetails = descEvent.split("/");
-
-                        //If description is empty
-                        if (eventDetails[0].isEmpty())
-                            throw new MissingParameterException("Thy event description shall not be empty.");
-                        //If start date/time is empty
-                        else if (eventDetails.length == 1)
-                            throw new MissingParameterException("Thy starting date and time shall not be empty.");
-                        //If end date/time is empty
-                        else if (eventDetails.length == 2)
-                            throw new MissingParameterException("Thy ending date and time shall not be empty.");
-
-                        Task event = new Event(eventDetails[0].trim(),
-                                eventDetails[1].substring(5).trim(),
-                                eventDetails[2].substring(3).trim());
-                        list.add(event);
-                        System.out.println("Verse : " + eventDetails[0].trim() + " hath been added to list.");
-
-                        //Display number of tasks
-                        System.out.println("There are " + list.size() + " tasks in thy list.");
-                        break;
-
-                    case "delete" :
-                        //index of task to be deleted
-                        int indexDelete = sc.nextInt();
-
-                        //Index out of bounds error
-                        if(indexDelete > list.size())
-                            throw new TaskNotFoundException();
-
-                        Task tDelete = list.remove(indexDelete - 1);
-
-                        System.out.println("Verse : Duly noted. The following task is no longer in the list: \n" + tDelete );
-                        break;
-
-                    default:
-                        throw new UnknownCommandException();
-                }
+                Command c = Command.valueOf(command[0].toUpperCase());
+                String details = "";
+                if(command.length > 1)
+                    details = command[1];
+                else
+                    details = "";
+                c.execute(bot, details);
 
             } catch (DukeException e) {
                 System.out.println("Verse : " + e.getMessage());
+            } catch (IllegalArgumentException e) {
+                DukeException dE = new DukeException();
+                System.out.println("Verse : " + dE.getMessage());
             }
         }
 
@@ -155,5 +46,104 @@ public class Verse {
         System.out.println();
         System.out.println("Final Act");
         System.out.println(farewell);
+    }
+
+    void exitProgram() {
+        proceed = false;
+    }
+
+    void listTasks() {
+        System.out.println("Verse : Here lies all that is noted:\n");
+
+        for (int i = 0; i < list.size(); i++) {
+            Task t = list.get(i);
+            System.out.println((i + 1) + ". " + t);
+        }
+        System.out.println();
+    }
+
+    void markTaskAsDone(int index) throws TaskNotFoundException {
+        //Index out of bounds error
+        if(index > list.size())
+            throw new TaskNotFoundException();
+
+        Task tMark = list.get(index - 1);
+        tMark.setDoneStatus(true);
+
+        System.out.println("Verse : Task is now complete.");
+    }
+
+    void unmarkTaskAsDone(int index) throws TaskNotFoundException {
+        if(index > list.size())
+            throw new TaskNotFoundException();
+
+        Task tUnmark = list.get(index - 1);
+        tUnmark.setDoneStatus(false);
+
+        System.out.println("Verse : Task is no longer complete.");
+    }
+
+    void createTodoTask(String desc) throws MissingParameterException {
+        if(desc.isEmpty())
+            throw new MissingParameterException("Thy todo description shall not be empty.");
+
+        Task toDo = new ToDo(desc);
+        list.add(toDo);
+
+        System.out.println("Verse : " + desc + " hath been added to list.");
+
+        //Display number of tasks
+        System.out.println("There are " + list.size() + " tasks in thy list.");
+    }
+
+    void createDeadlineTask(String desc) throws MissingParameterException {
+        String[] details = desc.split("/");
+
+        //If description is empty
+        if (details[0].isEmpty())
+            throw new MissingParameterException("Thy deadline description shall not be empty.");
+            //If date/time is empty
+        else if (details.length == 1)
+            throw new MissingParameterException("Thy date and time shall not be empty.");
+
+        Task deadline = new Deadline(details[0].trim(),
+                details[1].substring(2).trim());
+        list.add(deadline);
+        System.out.println("Verse : " + details[0].trim() + " hath been added to list.");
+
+        //Display number of tasks
+        System.out.println("There are " + list.size() + " tasks in thy list.");
+    }
+
+    void createEventTask(String desc) throws MissingParameterException {
+        String[] details = desc.split("/");
+
+        //If description is empty
+        if (details[0].isEmpty())
+            throw new MissingParameterException("Thy event description shall not be empty.");
+            //If start date/time is empty
+        else if (details.length == 1)
+            throw new MissingParameterException("Thy starting date and time shall not be empty.");
+            //If end date/time is empty
+        else if (details.length == 2)
+            throw new MissingParameterException("Thy ending date and time shall not be empty.");
+
+        Task event = new Event(details[0].trim(),
+                details[1].substring(5).trim(),
+                details[2].substring(3).trim());
+        list.add(event);
+        System.out.println("Verse : " + details[0].trim() + " hath been added to list.");
+
+        //Display number of tasks
+        System.out.println("There are " + list.size() + " tasks in thy list.");
+    }
+
+    void deleteTask(int index) throws TaskNotFoundException {
+        if(index > list.size())
+            throw new TaskNotFoundException();
+
+        Task tDelete = list.remove(index - 1);
+
+        System.out.println("Verse : Duly noted. The following task is no longer in the list: \n" + tDelete );
     }
 }
