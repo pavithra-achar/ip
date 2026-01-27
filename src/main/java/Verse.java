@@ -1,6 +1,12 @@
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Verse {
     private boolean proceed = true;
@@ -17,6 +23,48 @@ public class Verse {
         System.out.println(greeting);
 
         bot.list = new ArrayList<>(100);
+
+        File folder = new File("./data");
+        File file = new File(folder, "Verse.txt");
+
+        try {
+            // create folder if it doesn't exist
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            // create file if it doesn't exist
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            Scanner readFile = null;
+            readFile = new Scanner(file);
+
+
+            while (readFile.hasNext()) {
+                String[] s = readFile.nextLine().split(",");
+                Command c = Command.valueOf(s[0].toUpperCase());
+                try {
+                    switch (c) {
+                        case TODO:
+                            Task toDo = new ToDo(s[1]);
+                            bot.list.add(toDo);
+                            break;
+                        case DEADLINE:
+                            Task deadline = new Deadline(s[1], bot.parseDateTime(s[2]));
+                            bot.list.add(deadline);
+                            break;
+                        case EVENT:
+                            bot.list.add(new Event(s[1], bot.parseDateTime(s[2]), bot.parseDateTime(s[3])));
+                            break;
+                    }
+                } catch (MissingParameterException e) {
+                    System.out.println("Verse : " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to create folder or file.");
+        }
 
         Scanner sc = new Scanner(System.in);
 
@@ -49,6 +97,18 @@ public class Verse {
     }
 
     void exitProgram() {
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter("././data/Verse.txt");
+
+            for (Task task : list) {
+                fw.write(task.fileString() + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         proceed = false;
     }
 
@@ -106,8 +166,10 @@ public class Verse {
         else if (details.length == 1)
             throw new MissingParameterException("Thy date and time shall not be empty.");
 
+        
+
         Task deadline = new Deadline(details[0].trim(),
-                details[1].substring(2).trim());
+                parseDateTime(details[1].substring(2).trim()));
         list.add(deadline);
         System.out.println("Verse : " + details[0].trim() + " hath been added to list.");
 
@@ -129,8 +191,8 @@ public class Verse {
             throw new MissingParameterException("Thy ending date and time shall not be empty.");
 
         Task event = new Event(details[0].trim(),
-                details[1].substring(5).trim(),
-                details[2].substring(3).trim());
+                parseDateTime(details[1].substring(5).trim()),
+                parseDateTime(details[2].substring(3).trim()));
         list.add(event);
         System.out.println("Verse : " + details[0].trim() + " hath been added to list.");
 
@@ -145,5 +207,19 @@ public class Verse {
         Task tDelete = list.remove(index - 1);
 
         System.out.println("Verse : Duly noted. The following task is no longer in the list: \n" + tDelete );
+    }
+
+    LocalDateTime parseDateTime(String dateTimeString) throws MissingParameterException {
+        LocalDateTime dateTime;
+        try {
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            dateTime = LocalDateTime.parse(dateTimeString, formatter);
+        } catch (DateTimeParseException e) {
+            throw new MissingParameterException(
+                    "Thy time must follow the form dd-mm-yyyy HH:mm (24-hour clock)."
+            );
+        }
+        return dateTime;
     }
 }
