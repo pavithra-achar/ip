@@ -1,6 +1,13 @@
+package duke;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import duke.exception.MissingParameterException;
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
+import duke.task.ToDo;
 
 public class Storage {
     private final File file;

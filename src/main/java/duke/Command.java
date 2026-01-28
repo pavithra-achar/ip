@@ -1,3 +1,9 @@
+package duke;
+
+import duke.exception.DukeException;
+import duke.exception.MissingParameterException;
+import duke.exception.TaskNotFoundException;
+
 public enum Command {
     BYE {
         @Override

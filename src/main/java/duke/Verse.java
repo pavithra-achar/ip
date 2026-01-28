@@ -1,5 +1,14 @@
+package duke;
 import java.io.IOException;
 import java.util.Scanner;
+
+import duke.exception.DukeException;
+import duke.exception.MissingParameterException;
+import duke.exception.TaskNotFoundException;
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
+import duke.task.ToDo;
 
 public class Verse {
     private boolean proceed = true;
