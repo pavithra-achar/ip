@@ -7,7 +7,7 @@ public enum Command {
     },
     LIST {
         @Override
-        void execute(Verse bot, String args) {
+        void execute(Verse bot, String args) throws TaskNotFoundException {
             bot.listTasks();
         }
     },
