@@ -18,7 +18,8 @@ public class Ui {
 
     /**
      * Displays the list of tasks to the user.
-     * @param tasks
+     * @param tasks The list of tasks to be displayed.
+     * @param header The header message to be displayed before the tasks.
      */
     public void showList(ArrayList<Task> tasks, String header) {
         showMessage(header);
