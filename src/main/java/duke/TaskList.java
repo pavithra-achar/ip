@@ -7,10 +7,6 @@ import duke.task.Task;
 public class TaskList {
     private ArrayList<Task> tasks;
 
-    public TaskList() {
-        tasks = new ArrayList<>(100);
-    }
-
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }

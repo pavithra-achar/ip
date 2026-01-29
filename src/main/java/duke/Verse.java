@@ -81,9 +81,7 @@ public class Verse {
      * @throws TaskNotFoundException if the task index is invalid.
      */
     void markTaskAsDone(int index) throws TaskNotFoundException {
-
-        Task tMark = list.get(index - 1);
-        tMark.setDoneStatus(true);
+        list.markDone(index - 1);
 
         ui.showMessage("Task is now complete.");
     }
@@ -94,8 +92,7 @@ public class Verse {
      * @throws TaskNotFoundException if the task index is invalid.
      */
     void unmarkTaskAsDone(int index) throws TaskNotFoundException {
-        Task tUnmark = list.get(index - 1);
-        tUnmark.setDoneStatus(false);
+       list.unmarkDone(index - 1);
 
         ui.showMessage("Task is no longer complete.");
     }
