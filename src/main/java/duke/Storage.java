@@ -30,11 +30,11 @@ public class Storage {
             Command c = Command.valueOf(s[0].toUpperCase());
             try {
                 switch (c) {
-                    case TODO -> tasks.add(new ToDo(s[1]));
-                    case DEADLINE -> tasks.add(new Deadline(s[1], parser.parseDateTime(s[2])));
-                    case EVENT -> tasks.add(new Event(s[1],
-                                                      parser.parseDateTime(s[2]),
-                                                      parser.parseDateTime(s[3])));
+                    case TODO -> tasks.add(new ToDo(s[1].trim()));
+                    case DEADLINE -> tasks.add(new Deadline(s[1].trim(), parser.parseDateTime(s[2].trim())));
+                    case EVENT -> tasks.add(new Event(s[1].trim(),
+                                                      parser.parseDateTime(s[2].trim()),
+                                                      parser.parseDateTime(s[3].trim())));
                 }
             } catch (MissingParameterException e) {
                 System.out.println("Verse : " + e.getMessage());

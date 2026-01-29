@@ -11,7 +11,8 @@ public class Deadline extends Task{
     }
 
     public String fileString() {
-        return "deadline, " + this.description + ", " + this.dateTime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return "deadline," + this.description + "," + this.dateTime.format(formatter);
     }
 
     @Override
