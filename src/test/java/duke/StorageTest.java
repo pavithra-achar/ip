@@ -22,15 +22,11 @@ public class StorageTest {
 
         testFile = new File(folder, "testVerse.txt");
         storage = new Storage("./testData", "testVerse.txt");
-        FileWriter fw = null;
-        try{
-            fw = new FileWriter(testFile);
+        try (FileWriter fw = new FileWriter(testFile)) {
             fw.write("todo,Read book" + System.lineSeparator());
             fw.write("deadline,Submit report,12-12-2012 23:59");
         } catch (IOException e) {
             System.out.println("Error creating test file: " + e.getMessage());
-        } finally {
-            fw.close();
         }
     }
 
@@ -45,8 +41,8 @@ public class StorageTest {
         ArrayList<Task> tasks = storage.loadTasks();
 
         assertEquals(2, tasks.size());
-        assertTrue(tasks.get(0) instanceof ToDo);
-        assertTrue(tasks.get(1) instanceof Deadline);
+        assertInstanceOf(ToDo.class, tasks.get(0));
+        assertInstanceOf(Deadline.class, tasks.get(1));
 
         assertEquals("Read book", tasks.get(0).getDescription());
         assertEquals("Submit report", tasks.get(1).getDescription());
@@ -54,8 +50,7 @@ public class StorageTest {
 
     @Test
     void loadTasks_corruptedFile_throwsException() throws IOException {
-        try  {
-            FileWriter fw = new FileWriter(testFile);
+        try (FileWriter fw = new FileWriter(testFile);) {
             fw.write("deadline, Bad date task, not-a-date\n");
             ArrayList<Task> tasks = storage.loadTasks();
             assertEquals(0, tasks.size());
