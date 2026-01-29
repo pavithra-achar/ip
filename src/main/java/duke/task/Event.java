@@ -12,7 +12,7 @@ public class Event extends Task {
         this.end = end;
     }
 
-    public String fileString() {
+    public String getFileString() {
         return "event, " + this.description + ", " + this.start + ", " + this.end;
     }
 

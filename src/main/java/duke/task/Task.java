@@ -16,7 +16,7 @@ public class Task {
         isDone = done;
     }
 
-    public String fileString() {
+    public String getFileString() {
         return "";
     }
 

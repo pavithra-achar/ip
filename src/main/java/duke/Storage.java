@@ -62,7 +62,7 @@ public class Storage {
     public void saveTasks(ArrayList<Task> tasks) {
         try (FileWriter fw = new FileWriter(file)) {
             for (Task t : tasks) {
-                fw.write(t.fileString() + System.lineSeparator());
+                fw.write(t.getFileString() + System.lineSeparator());
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to save tasks", e);

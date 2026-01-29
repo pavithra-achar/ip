@@ -5,7 +5,7 @@ public class ToDo extends Task {
         super(description);
     }
 
-    public String fileString() {
+    public String getFileString() {
         return "todo, " + this.description;
     }
 
