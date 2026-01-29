@@ -1,3 +1,9 @@
+package duke;
+
+import duke.exception.DukeException;
+import duke.exception.MissingParameterException;
+import duke.exception.TaskNotFoundException;
+
 public enum Command {
     BYE {
         @Override
@@ -7,7 +13,7 @@ public enum Command {
     },
     LIST {
         @Override
-        void execute(Verse bot, String args) {
+        void execute(Verse bot, String args) throws TaskNotFoundException {
             bot.listTasks();
         }
     },
