@@ -1,4 +1,5 @@
 package duke;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ import duke.task.Task;
 import duke.task.ToDo;
 
 public class Verse {
-    private boolean proceed = true;
+    private boolean canProceed = true;
     private TaskList list;
     private Ui ui = new Ui();
     private Storage storage;
@@ -26,15 +27,16 @@ public class Verse {
             bot.storage = new Storage("./data", "Verse.txt");
             bot.list = new TaskList(bot.storage.loadTasks());
         } catch (IOException e) {
-            DukeException dE = new DukeException();
-            bot.ui.showMessage(dE.getMessage());
+            DukeException dukeException = new DukeException();
+            bot.ui.showMessage(dukeException.getMessage());
         }
             
         Scanner sc = new Scanner(System.in);
 
-        while (bot.proceed) {
+        while (bot.canProceed) {
             bot.ui.readCommand();
             String sentence = sc.nextLine();
+
             try {
                 Command c = bot.parser.parseCommand(sentence);
                 String details = bot.parser.getDetails(sentence);
@@ -53,10 +55,10 @@ public class Verse {
 
     void exitProgram() {
         storage.saveTasks(list.getAll());
-        proceed = false;
+        canProceed = false;
     }
 
-    void listTasks() throws TaskNotFoundException {
+    void listTasks() {
         ui.showList(list.getAll());
     }
 

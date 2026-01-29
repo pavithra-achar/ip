@@ -10,17 +10,15 @@ public class Deadline extends Task{
         this.dateTime = dateTime;
     }
 
-    public String fileString() {
+    public String getFileString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return "deadline," + this.description + "," + this.dateTime.format(formatter);
     }
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
-        return "[D]" + super.toString()
-                + " (by: " + dateTime.format(formatter) + ")";
+        return "[D]" + super.toString() + " (by: " + dateTime.format(formatter) + ")";
     }
 }
