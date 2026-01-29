@@ -44,4 +44,14 @@ public class TaskList {
     public void unmarkDone(int index) throws TaskNotFoundException {
         get(index).setDoneStatus(false);
     }
+
+    public TaskList findTasks(String keyword) {
+        ArrayList<Task> foundTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                foundTasks.add(task);
+            }
+        }
+        return new TaskList(foundTasks);
+    }
 }
