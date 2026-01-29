@@ -9,6 +9,9 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
 
+/**
+ * Handles loading and saving of tasks to a file.
+ */
 public class Storage {
     private final File file;
 
@@ -20,6 +23,12 @@ public class Storage {
         if (!file.exists()) file.createNewFile();
     }
 
+    /**
+     * Loads tasks from the storage file.
+     * 
+     * @return An ArrayList of tasks loaded from the file.
+     * @throws IOException If an I/O error occurs.
+     */
     public ArrayList<Task> loadTasks() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         Parser parser = new Parser();
@@ -45,6 +54,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the list of tasks to the storage file.
+     * 
+     * @param tasks The list of tasks to be saved.
+     */
     public void saveTasks(ArrayList<Task> tasks) {
         try (FileWriter fw = new FileWriter(file)) {
             for (Task t : tasks) {
