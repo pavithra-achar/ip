@@ -1,6 +1,7 @@
 package duke;
 
 import java.io.IOException;
+
 import java.util.Scanner;
 
 import duke.exception.DukeException;
@@ -67,8 +68,9 @@ public class Verse {
     /** 
      * Lists all tasks in the task list.
      */
+
     void listTasks() {
-        ui.showList(list.getAll());
+        ui.showList(list.getAll(), "Here lies all that is noted:\n");
     }
 
     /**
@@ -77,9 +79,7 @@ public class Verse {
      * @throws TaskNotFoundException if the task index is invalid.
      */
     void markTaskAsDone(int index) throws TaskNotFoundException {
-
-        Task tMark = list.get(index - 1);
-        tMark.setDoneStatus(true);
+        list.markDone(index - 1);
 
         ui.showMessage("Task is now complete.");
     }
@@ -90,8 +90,7 @@ public class Verse {
      * @throws TaskNotFoundException if the task index is invalid.
      */
     void unmarkTaskAsDone(int index) throws TaskNotFoundException {
-        Task tUnmark = list.get(index - 1);
-        tUnmark.setDoneStatus(false);
+       list.unmarkDone(index - 1);
 
         ui.showMessage("Task is no longer complete.");
     }
@@ -165,5 +164,14 @@ public class Verse {
         Task task = list.remove(index - 1);
 
         ui.showMessage("Duly noted. The following task is no longer in the list: \n" + task);
+    }
+
+    void findTasks(String keyword) throws MissingParameterException {
+        if (keyword.isEmpty()) {
+            throw new MissingParameterException("Thy search keyword shall not be empty.");
+        }
+
+        TaskList foundTasks = list.findTasks(keyword);
+        ui.showList(foundTasks.getAll(), "Here are the tasks that match thy search:\n");
     }
 }

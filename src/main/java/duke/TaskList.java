@@ -7,10 +7,6 @@ import duke.task.Task;
 public class TaskList {
     private ArrayList<Task> tasks;
 
-    public TaskList() {
-        tasks = new ArrayList<>(100);
-    }
-
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
@@ -43,5 +39,15 @@ public class TaskList {
 
     public void unmarkDone(int index) throws TaskNotFoundException {
         get(index).setDoneStatus(false);
+    }
+
+    public TaskList findTasks(String keyword) {
+        ArrayList<Task> foundTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                foundTasks.add(task);
+            }
+        }
+        return new TaskList(foundTasks);
     }
 }

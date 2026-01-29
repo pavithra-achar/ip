@@ -20,8 +20,8 @@ public class Ui {
      * Displays the list of tasks to the user.
      * @param tasks
      */
-    public void showList(ArrayList<Task> tasks) {
-        showMessage("Here lies all that is noted:\n");
+    public void showList(ArrayList<Task> tasks, String header) {
+        showMessage(header);
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
         }

@@ -52,6 +52,12 @@ public enum Command {
         void execute(Verse bot, String args) throws MissingParameterException {
             bot.createEventTask(args);
         }
+    }, 
+    FIND {
+        @Override
+        void execute(Verse bot, String args) throws MissingParameterException {
+            bot.findTasks(args);
+        }
     };
 
     abstract void execute(Verse bot, String args) throws DukeException;
