@@ -66,11 +66,8 @@ public class Verse {
 
     /** 
      * Lists all tasks in the task list.
-     * 
-     * @throws TaskNotFoundException
      */
-
-    void listTasks() throws TaskNotFoundException {
+    void listTasks() {
         ui.showList(list.getAll());
     }
 
