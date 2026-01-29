@@ -49,8 +49,8 @@ public class StorageTest {
     }
 
     @Test
-    void loadTasks_corruptedFile_throwsException() throws IOException {
-        try (FileWriter fw = new FileWriter(testFile);) {
+    void loadTasks_corruptedFile_throwsException() {
+        try (FileWriter fw = new FileWriter(testFile)) {
             fw.write("deadline, Bad date task, not-a-date\n");
             ArrayList<Task> tasks = storage.loadTasks();
             assertEquals(0, tasks.size());
