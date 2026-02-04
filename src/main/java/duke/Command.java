@@ -7,58 +7,59 @@ import duke.exception.TaskNotFoundException;
 public enum Command {
     BYE {
         @Override
-        void execute(Verse bot, String args) {
-            bot.exitProgram();
+        String execute(Verse bot, String args) {
+            return bot.exitProgram();
         }
     },
     LIST {
         @Override
-        void execute(Verse bot, String args) throws TaskNotFoundException {
-            bot.listTasks();
+        String execute(Verse bot, String args) throws TaskNotFoundException {
+            return bot.listTasks();
         }
     },
     MARK {
         @Override
-        void execute(Verse bot, String args) throws TaskNotFoundException {
-            bot.markTaskAsDone(Integer.parseInt(args));
+        String execute(Verse bot, String args) throws TaskNotFoundException {
+            return bot.markTaskAsDone(Integer.parseInt(args));
+            
         }
     },
     UNMARK {
         @Override
-        void execute(Verse bot, String args) throws TaskNotFoundException {
-            bot.unmarkTaskAsDone(Integer.parseInt(args));
+        String execute(Verse bot, String args) throws TaskNotFoundException {
+            return bot.unmarkTaskAsDone(Integer.parseInt(args));
         }
     },
     DELETE {
         @Override
-        void execute(Verse bot, String args) throws TaskNotFoundException {
-            bot.deleteTask(Integer.parseInt(args));
+        String execute(Verse bot, String args) throws TaskNotFoundException {
+            return bot.deleteTask(Integer.parseInt(args));
         }
     },
     TODO {
         @Override
-        void execute(Verse bot, String args) throws MissingParameterException {
-            bot.createTodoTask(args);
+        String execute(Verse bot, String args) throws MissingParameterException {
+            return bot.createTodoTask(args);
         }
     },
     DEADLINE {
         @Override
-        void execute(Verse bot, String args) throws MissingParameterException {
-            bot.createDeadlineTask(args);
+        String execute(Verse bot, String args) throws MissingParameterException {
+            return bot.createDeadlineTask(args);
         }
     },
     EVENT {
         @Override
-        void execute(Verse bot, String args) throws MissingParameterException {
-            bot.createEventTask(args);
+        String execute(Verse bot, String args) throws MissingParameterException {
+            return bot.createEventTask(args);
         }
     }, 
     FIND {
         @Override
-        void execute(Verse bot, String args) throws MissingParameterException {
-            bot.findTasks(args);
+        String execute(Verse bot, String args) throws MissingParameterException {
+            return bot.findTasks(args);
         }
     };
 
-    abstract void execute(Verse bot, String args) throws DukeException;
+    abstract String execute(Verse bot, String args) throws DukeException;
 }

@@ -12,8 +12,9 @@ public class Ui {
      * 
      * @param message The message to be displayed.
      */
-    public void showMessage(String message) {
+    public String showMessage(String message) {
         System.out.println("Verse : " + message);
+        return message;
     }
 
     /**
@@ -21,12 +22,12 @@ public class Ui {
      * @param tasks The list of tasks to be displayed.
      * @param header The header message to be displayed before the tasks.
      */
-    public void showList(ArrayList<Task> tasks, String header) {
-        showMessage(header);
+    public String showList(ArrayList<Task> tasks, String header) {
+        String output = showMessage(header);
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            output += "\n" + ((i + 1) + ". " + tasks.get(i));
         }
-        System.out.println();
+        return output;
     }
 
     /**
@@ -39,19 +40,21 @@ public class Ui {
     /**
      * Displays a greeting message to the user.
      */
-    public void showGreeting() {
+    public String showGreeting() {
         String greeting = "Good day user, I am Verse. Thy words await my wit.\n" +
                           "Speak, and declare thy query.\n";
         System.out.println("ACT I - Scene 1");
         System.out.println(greeting);
+        return "Act I - Scene 1\n" + greeting;
     }
 
     /**
      * Displays a farewell message to the user.
      */
-    public void showFarewell() {
+    public String showFarewell() {
         String farewell = "Till next thou call’st this system forth, farewell.\n";
         System.out.println("Final Act");
         System.out.println(farewell);
+        return "Final Act\n" + farewell;
     }
 }
