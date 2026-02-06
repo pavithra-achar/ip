@@ -16,12 +16,16 @@ public class TaskList {
     }
 
     public Task remove(int index) throws TaskNotFoundException {
-        if (index <= 0 || index > tasks.size()) throw new TaskNotFoundException();
+        if (index <= 0 || index > tasks.size()) {
+            throw new TaskNotFoundException();
+        }
         return tasks.remove(index - 1);
     }
 
     public Task get(int index) throws TaskNotFoundException {
-        if (index <= 0 || index > tasks.size()) throw new TaskNotFoundException();
+        if (index <= 0 || index > tasks.size()) {
+            throw new TaskNotFoundException();
+        }
         return tasks.get(index - 1);
     }
 
