@@ -31,10 +31,6 @@ public class Verse {
             ui.showMessage(dukeException.getMessage());
         }
     }
-    public static void main(String[] args) {
-
-
-    }
 
     String handleInput(String input) {
         try {
@@ -172,7 +168,7 @@ public class Verse {
     /**
      * Generates a response for the user's chat message.
      */
-    public String getResponse(String input) {
-        return "Duke heard: " + input;
+    public String greet() {
+        return ui.showGreeting();
     }
 }
