@@ -1,4 +1,5 @@
 package duke;
+
 import java.util.ArrayList;
 
 import duke.task.Task;
@@ -8,8 +9,8 @@ import duke.task.Task;
  */
 public class Ui {
     /**
-     * Displays a message to the user with the prefix "Verse : ".
-     * 
+     * Displays a message to the user with the prefix "Verse :".
+     *
      * @param message The message to be displayed.
      */
     public String showMessage(String message) {
@@ -31,18 +32,11 @@ public class Ui {
     }
 
     /**
-     * Prompts the user for a command with a prefix "User : ".
-     */
-    public void readCommand() {
-        System.out.print("User : ");
-    }
-
-    /**
      * Displays a greeting message to the user.
      */
     public String showGreeting() {
-        String greeting = "Good day user, I am Verse. Thy words await my wit.\n" +
-                          "Speak, and declare thy query.\n";
+        String greeting = "Good day user, I am Verse. Thy words await my wit.\n"
+                + "Speak, and declare thy query.\n";
         System.out.println("ACT I - Scene 1");
         System.out.println(greeting);
         return "Act I - Scene 1\n" + greeting;

@@ -1,9 +1,13 @@
 package duke;
-import java.io.*;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import duke.exception.MissingParameterException;
+import duke.exception.UnknownCommandException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
@@ -17,15 +21,19 @@ public class Storage {
 
     public Storage(String folderPath, String fileName) throws IOException {
         File folder = new File(folderPath);
-        if (!folder.exists()) folder.mkdirs();
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
 
         file = new File(folder, fileName);
-        if (!file.exists()) file.createNewFile();
+        if (!file.exists()) {
+            file.createNewFile();
+        }
     }
 
     /**
      * Loads tasks from the storage file.
-     * 
+     *
      * @return An ArrayList of tasks loaded from the file.
      * @throws IOException If an I/O error occurs.
      */
@@ -39,14 +47,17 @@ public class Storage {
             Command c = Command.valueOf(s[0].toUpperCase());
             try {
                 switch (c) {
-                    case TODO -> tasks.add(new ToDo(s[1].trim()));
-                    case DEADLINE -> tasks.add(new Deadline(s[1].trim(), parser.parseDateTime(s[2].trim())));
-                    case EVENT -> tasks.add(new Event(s[1].trim(),
+                case TODO -> tasks.add(new ToDo(s[1].trim()));
+                case DEADLINE -> tasks.add(new Deadline(s[1].trim(), parser.parseDateTime(s[2].trim())));
+                case EVENT -> tasks.add(new Event(s[1].trim(),
                                                       parser.parseDateTime(s[2].trim()),
                                                       parser.parseDateTime(s[3].trim())));
+                default -> throw new UnknownCommandException();
                 }
             } catch (MissingParameterException e) {
                 System.out.println("Verse : " + e.getMessage());
+            } catch (UnknownCommandException e) {
+                System.out.println(e.getMessage());
             }
         }
 
@@ -56,7 +67,7 @@ public class Storage {
 
     /**
      * Saves the list of tasks to the storage file.
-     * 
+     *
      * @param tasks The list of tasks to be saved.
      */
     public void saveTasks(ArrayList<Task> tasks) {
