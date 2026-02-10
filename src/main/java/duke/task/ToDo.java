@@ -1,6 +1,9 @@
 package duke.task;
 public class ToDo extends Task {
 
+    public static final String TODO_ID_SHORT = "T";
+    public static final String TODO_ID = "todo";
+
     public ToDo(String description) {
         super(description);
     }
@@ -10,11 +13,11 @@ public class ToDo extends Task {
     }
 
     public String getFileString() {
-        return "todo, " + this.description + ", " + this.isDone;
+        return TODO_ID + "," + this.description + "," + this.isDone;
     }
 
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return "[" + TODO_ID_SHORT + "]" + super.toString();
     }
 }

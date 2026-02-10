@@ -63,7 +63,9 @@ public class Parser {
      */
     public String getDetails(String input) {
         String[] parts = input.split(" ", 2);
-        return parts.length > 1 ? parts[1] : "";
+        boolean hasDetails = parts.length > 1;
+
+        return hasDetails ? parts[1] : "";
     }
 
     /**
@@ -84,8 +86,10 @@ public class Parser {
             throw new MissingParameterException("Thy date and time shall not be empty.");
         }
 
+        int lengthOfDateTimeIndicator = 2; // length of "by"
+
         details[0] = details[0].trim();
-        details[1] = details[1].substring(2).trim();
+        details[1] = details[1].substring(lengthOfDateTimeIndicator).trim();
         return details;
     }
 
@@ -109,9 +113,12 @@ public class Parser {
             throw new MissingParameterException("Thy ending date and time shall not be empty.");
         }
 
+        int lengthOfStartIndicator = 5; // length of "from"
+        int lengthOfEndIndicator = 3; // length of "to"
+
         details[0] = details[0].trim();
-        details[1] = details[1].substring(5).trim();
-        details[2] = details[2].substring(3).trim();
+        details[1] = details[1].substring(lengthOfStartIndicator).trim();
+        details[2] = details[2].substring(lengthOfEndIndicator).trim();
         return details;
     }
 }

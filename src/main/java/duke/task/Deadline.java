@@ -4,6 +4,8 @@ import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
     protected LocalDateTime dateTime;
+    public static final String DEADLINE_ID_SHORT = "D";
+    public static final String DEADLINE_ID = "deadline";
 
     public Deadline(String description, LocalDateTime dateTime) {
         super(description);
@@ -17,13 +19,13 @@ public class Deadline extends Task {
 
     public String getFileString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return "deadline," + this.description + "," + this.dateTime.format(formatter) + "," + this.isDone;
+        return DEADLINE_ID + "," + this.description + "," + this.dateTime.format(formatter) + "," + this.isDone;
     }
 
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
-        return "[D]" + super.toString() + " (by: " + dateTime.format(formatter) + ")";
+        return "[" + DEADLINE_ID_SHORT + "]" + super.toString() + " (by: " + dateTime.format(formatter) + ")";
     }
 }
