@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 import duke.exception.MissingParameterException;
 import duke.exception.UnknownCommandException;
@@ -76,9 +77,13 @@ public class Storage {
      */
     public void saveTasks(ArrayList<Task> tasks) {
         try (FileWriter fw = new FileWriter(file)) {
-            for (Task t : tasks) {
-                fw.write(t.getFileString() + System.lineSeparator());
-            }
+            tasks.stream().forEach(t -> {
+                try {
+                    fw.write(t.getFileString() + System.lineSeparator());
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to save tasks", e);
+                }
+            });
         } catch (IOException e) {
             throw new RuntimeException("Failed to save tasks", e);
         }

@@ -47,11 +47,7 @@ public class TaskList {
 
     public TaskList findTasks(String keyword) {
         ArrayList<Task> foundTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getDescription().contains(keyword)) {
-                foundTasks.add(task);
-            }
-        }
+        tasks.stream().filter(task -> task.getDescription().contains(keyword)).forEach(foundTasks::add);
         return new TaskList(foundTasks);
     }
 }
