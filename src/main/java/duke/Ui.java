@@ -25,6 +25,7 @@ public class Ui {
      */
     public String showList(ArrayList<Task> tasks, String header) {
         String output = showMessage(header);
+        
         for (int i = 0; i < tasks.size(); i++) {
             output += "\n" + ((i + 1) + ". " + tasks.get(i));
         }
