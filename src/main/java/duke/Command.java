@@ -58,6 +58,12 @@ public enum Command {
         String execute(Verse bot, String args) throws TaskNotFoundException {
             return bot.unmarkTaskAsDone(Integer.parseInt(args));
         }
+    },
+    EDIT {
+        @Override
+        String execute(Verse bot, String args) throws MissingParameterException, TaskNotFoundException {
+            return bot.editTask(args);
+        }
     };
 
     abstract String execute(Verse bot, String args) throws DukeException;

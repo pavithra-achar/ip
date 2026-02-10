@@ -1,4 +1,7 @@
 package duke.task;
+
+import duke.exception.IllegalParameterException;
+
 public class ToDo extends Task {
 
     public ToDo(String description) {
@@ -14,7 +17,20 @@ public class ToDo extends Task {
     }
 
     @Override
+    public void editTask(String parameter, String newValue) throws IllegalParameterException {
+        switch(parameter) {
+            case "desc":
+                this.description = newValue;
+                break;
+            default:
+                throw new IllegalParameterException("Invalid field for ToDo task. Only 'desc' is allowed.");
+        }
+    }
+
+    @Override
     public String toString() {
         return "[T]" + super.toString();
     }
+
+
 }

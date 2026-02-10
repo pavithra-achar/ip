@@ -5,6 +5,7 @@ import java.io.IOException;
 import duke.exception.DukeException;
 import duke.exception.MissingParameterException;
 import duke.exception.TaskNotFoundException;
+import duke.exception.IllegalParameterException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
@@ -161,6 +162,21 @@ public class Verse {
         return ui.showList(foundTasks.getAll(), "Here are the tasks that match thy search:\n");
     }
 
+    String editTask(String args) throws TaskNotFoundException {
+        String[] parts = args.split(" ", 3);
+        Task task = list.get(Integer.parseInt(parts[0]) - 1);
+
+        if (parts.length < 3) {
+            return ui.showMessage("Thy edit command is incomplete. Please specify the task index, field to edit, and new value.");
+        }
+
+        try {
+            task.editTask(parts[1], parts[2]);
+        } catch (IllegalParameterException e) {
+            return ui.showMessage(e.getMessage());
+        }
+        return ui.showMessage("Thy task hath been updated to: \n" + task);
+    }
     /**
      * Generates a response for the user's chat message.
      */

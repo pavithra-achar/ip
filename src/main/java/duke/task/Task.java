@@ -1,4 +1,7 @@
 package duke.task;
+
+import duke.exception.IllegalParameterException;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -29,8 +32,17 @@ public class Task {
         return this.description;
     }
 
+    public void editTask(String parameter, String newValue) throws IllegalParameterException {
+        if (parameter.equals("desc")) {
+            this.description = newValue;
+        } else {
+            throw new IllegalParameterException("Invalid field for Task. Only 'desc' is allowed.");
+        }
+    }
+
     @Override
     public String toString() {
         return "[" + this.getStatusIcon() + "] " + this.description;
     }
+
 }
