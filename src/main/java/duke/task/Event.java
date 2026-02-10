@@ -12,8 +12,14 @@ public class Event extends Task {
         this.end = end;
     }
 
+    public Event(String description, LocalDateTime start, LocalDateTime end, boolean isDone) {
+        super(description, isDone);
+        this.start = start;
+        this.end = end;
+    }
+
     public String getFileString() {
-        return "event, " + this.description + ", " + this.start + ", " + this.end;
+        return "event, " + this.description + ", " + this.start + ", " + this.end + ", " + this.isDone;
     }
 
     @Override

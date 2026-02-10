@@ -23,10 +23,10 @@ public class TaskList {
     }
 
     public Task get(int index) throws TaskNotFoundException {
-        if (index <= 0 || index > tasks.size()) {
+        if (index < 0 || index > tasks.size()) {
             throw new TaskNotFoundException();
         }
-        return tasks.get(index - 1);
+        return tasks.get(index);
     }
 
     public int size() {
