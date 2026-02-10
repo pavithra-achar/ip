@@ -30,6 +30,11 @@ public class Verse {
     }
 
     String handleInput(String input) {
+        assert storage != null : "Storage should be initialized";
+        assert list != null : "TaskList should be initialized";
+        assert ui != null : "UI should be initialized";
+        assert parser != null : "Parser should be initialized";
+        
         try {
             Command c = parser.parseCommand(input);
             String details = parser.getDetails(input);
@@ -108,6 +113,8 @@ public class Verse {
     String createDeadlineTask(String desc) throws MissingParameterException {
         String[] details = parser.parseDeadline(desc);
 
+        assert details.length == 2 : "Deadline details should contain description and deadline";
+
         Task deadline = new Deadline(details[0],
                 parser.parseDateTime(details[1]));
         list.add(deadline);
@@ -125,6 +132,8 @@ public class Verse {
      */
     String createEventTask(String desc) throws MissingParameterException {
         String[] details = parser.parseEvent(desc);
+
+        assert details.length == 3 : "Event details should contain description, start time, and end time";
 
         Task event = new Event(details[0],
                 parser.parseDateTime(details[1]),

@@ -44,14 +44,18 @@ public class Storage {
 
         while (sc.hasNextLine()) {
             String[] s = sc.nextLine().split(",");
+            assert s.length > 0 : "Each line should contain at least the command type";
             Command c = Command.valueOf(s[0].toUpperCase());
             try {
                 switch (c) {
                 case TODO -> tasks.add(new ToDo(s[1].trim(), Boolean.parseBoolean(s[2].trim())));
-                case DEADLINE -> tasks.add(new Deadline(s[1].trim(), parser.parseDateTime(s[2].trim()), Boolean.parseBoolean(s[3].trim())));
+                case DEADLINE -> tasks.add(new Deadline(s[1].trim(),
+                                                        parser.parseDateTime(s[2].trim()),
+                                                        Boolean.parseBoolean(s[3].trim())));
                 case EVENT -> tasks.add(new Event(s[1].trim(),
-                                                      parser.parseDateTime(s[2].trim()),
-                                                      parser.parseDateTime(s[3].trim()), Boolean.parseBoolean(s[4].trim())));
+                                                  parser.parseDateTime(s[2].trim()),
+                                                  parser.parseDateTime(s[3].trim()),
+                                                  Boolean.parseBoolean(s[4].trim())));
                 default -> throw new UnknownCommandException();
                 }
             } catch (MissingParameterException e) {
