@@ -3,6 +3,7 @@ package duke;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,7 +31,8 @@ public class Main extends Application {
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent windowEvent) {
-                    duke.exitProgram();
+                    windowEvent.consume();
+                    duke.handleInput("bye");
                 }
             });
         } catch (IOException e) {

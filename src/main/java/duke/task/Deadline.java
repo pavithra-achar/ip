@@ -10,9 +10,14 @@ public class Deadline extends Task {
         this.dateTime = dateTime;
     }
 
+    public Deadline(String description, LocalDateTime dateTime, boolean isDone) {
+        super(description, isDone);
+        this.dateTime = dateTime;
+    }
+
     public String getFileString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return "deadline," + this.description + "," + this.dateTime.format(formatter);
+        return "deadline," + this.description + "," + this.dateTime.format(formatter) + "," + this.isDone;
     }
 
     @Override
