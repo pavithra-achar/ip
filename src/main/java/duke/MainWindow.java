@@ -1,14 +1,11 @@
 package duke;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-
-import java.sql.SQLOutput;
 
 /**
  * Controller for the main GUI.
@@ -20,13 +17,11 @@ public class MainWindow extends AnchorPane {
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
-    @FXML
-    private Button sendButton;
+    private Verse verse;
 
-    private Verse duke;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/mask-removebg-preview.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/verse.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/mask-removebg-preview.png"));
+    private final Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/verse.png"));
 
     @FXML
     public void initialize() {
@@ -35,9 +30,9 @@ public class MainWindow extends AnchorPane {
     }
 
     /** Injects the Duke instance */
-    public void setDuke(Verse d) {
-        duke = d;
-        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(duke.greet(), dukeImage));
+    public void setVerse(Verse v) {
+        verse = v;
+        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(verse.greet(), dukeImage));
     }
 
     /**
@@ -47,7 +42,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = duke.handleInput(input);
+        String response = verse.handleInput(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getDukeDialog(response, dukeImage)

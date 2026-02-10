@@ -2,8 +2,6 @@ package duke;
 
 import java.io.IOException;
 
-import java.util.Scanner;
-
 import duke.exception.DukeException;
 import duke.exception.MissingParameterException;
 import duke.exception.TaskNotFoundException;
@@ -16,7 +14,6 @@ import duke.task.ToDo;
  * Main class of the Verse application.
  */
 public class Verse {
-    private boolean canProceed = true;
     private TaskList list;
     private Ui ui = new Ui();
     private Storage storage;
@@ -33,6 +30,11 @@ public class Verse {
     }
 
     String handleInput(String input) {
+        assert storage != null : "Storage should be initialized";
+        assert list != null : "TaskList should be initialized";
+        assert ui != null : "UI should be initialized";
+        assert parser != null : "Parser should be initialized";
+        
         try {
             Command c = parser.parseCommand(input);
             String details = parser.getDetails(input);
@@ -50,15 +52,12 @@ public class Verse {
      */
     String exitProgram() {
         storage.saveTasks(list.getAll());
-        canProceed = false;
         return ui.showFarewell();
-
     }
 
-    /** 
+    /**
      * Lists all tasks in the task list.
      */
-
     String listTasks() {
         return ui.showList(list.getAll(), "Here lies all that is noted:\n");
     }
@@ -80,20 +79,21 @@ public class Verse {
      * @throws TaskNotFoundException if the task index is invalid.
      */
     String unmarkTaskAsDone(int index) throws TaskNotFoundException {
-       list.unmarkDone(index - 1);
+        list.unmarkDone(index - 1);
 
         return ui.showMessage("Task is no longer complete.");
     }
 
-    /** 
+    /**
      * Creates a ToDo task and adds it to the task list.
-     * 
+     *
      * @param desc the description of the ToDo task.
      * @throws MissingParameterException if the description is missing.
      */
     String createTodoTask(String desc) throws MissingParameterException {
-        if(desc.isEmpty())
+        if (desc.isEmpty()) {
             throw new MissingParameterException("Thy todo description shall not be empty.");
+        }
 
         Task toDo = new ToDo(desc);
         list.add(toDo);
@@ -104,14 +104,16 @@ public class Verse {
         return message + "\n" + ui.showMessage("There are " + list.size() + " tasks in thy list.");
     }
 
-    /** 
+    /**
      * Creates a Deadline task and adds it to the task list.
-     * 
+     *
      * @param desc the description and deadline of the Deadline task.
      * @throws MissingParameterException if the description or deadline is missing.
      */
     String createDeadlineTask(String desc) throws MissingParameterException {
         String[] details = parser.parseDeadline(desc);
+
+        assert details.length == 2 : "Deadline details should contain description and deadline";
 
         Task deadline = new Deadline(details[0],
                 parser.parseDateTime(details[1]));
@@ -122,14 +124,16 @@ public class Verse {
         return message + "\n" + ui.showMessage("There are " + list.size() + " tasks in thy list.");
     }
 
-    /** 
+    /**
      * Creates an Event task and adds it to the task list.
-     * 
+     *
      * @param desc the description, start time, and end time of the Event task.
      * @throws MissingParameterException if the description, start time, or end time is missing.
      */
     String createEventTask(String desc) throws MissingParameterException {
         String[] details = parser.parseEvent(desc);
+
+        assert details.length == 3 : "Event details should contain description, start time, and end time";
 
         Task event = new Event(details[0],
                 parser.parseDateTime(details[1]),
@@ -141,15 +145,16 @@ public class Verse {
         return message + "\n" + ui.showMessage("There are " + list.size() + " tasks in thy list.");
     }
 
-    /** 
+    /**
      * Deletes a task from the task list based on the given index.
-     * 
+     *
      * @param index the index of the task to be deleted.
      * @throws TaskNotFoundException if the task index is invalid.
      */
     String deleteTask(int index) throws TaskNotFoundException {
-        if(index > list.size())
+        if (index > list.size()) {
             throw new TaskNotFoundException();
+        }
 
         Task task = list.remove(index - 1);
 
