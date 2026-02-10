@@ -2,6 +2,8 @@ package duke.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import duke.exception.IllegalParameterException;
+
 public class Deadline extends Task {
     protected LocalDateTime dateTime;
     public static final String DEADLINE_ID_SHORT = "D";
@@ -20,6 +22,21 @@ public class Deadline extends Task {
     public String getFileString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return DEADLINE_ID + "," + this.description + "," + this.dateTime.format(formatter) + "," + this.isDone;
+    }
+
+    @Override
+    public void editTask(String parameter, String newValue) throws IllegalParameterException {
+        switch (parameter) {
+            case "desc":
+                this.description = newValue;
+                break;
+            case "by":
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                this.dateTime = LocalDateTime.parse(newValue, formatter);
+                break;
+            default:
+                throw new IllegalParameterException("Invalid field for Deadline task. Only 'desc' and 'by' are allowed.");
+        }
     }
 
     @Override

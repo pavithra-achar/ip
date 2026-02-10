@@ -2,6 +2,8 @@ package duke.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import duke.exception.IllegalParameterException;
+
 public class Event extends Task {
     protected LocalDateTime start;
     protected LocalDateTime end;
@@ -22,6 +24,23 @@ public class Event extends Task {
 
     public String getFileString() {
         return EVENT_ID + "," + this.description + "," + this.start + "," + this.end + "," + this.isDone;
+    }
+
+    @Override
+    public void editTask(String parameter, String newValue) throws IllegalParameterException {
+           switch (parameter) {
+            case "desc":
+                this.description = newValue;
+                break;
+            case "start":
+                this.start = LocalDateTime.parse(newValue);
+                break;  
+            case "end":
+                this.end = LocalDateTime.parse(newValue);
+                 break;
+            default:
+                throw new IllegalParameterException("Invalid field for Event task. Only 'desc', 'start', and 'end' are allowed.");
+           }
     }
 
     @Override
