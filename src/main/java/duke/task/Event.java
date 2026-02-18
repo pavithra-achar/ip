@@ -47,7 +47,11 @@ public class Event extends Task {
      */
     public String getFileString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return EVENT_ID + "," + this.description + "," + this.start.format(formatter) + "," + this.end.format(formatter) + "," + this.isDone;
+        return EVENT_ID
+                + "," + this.description
+                + "," + this.start.format(formatter)
+                + "," + this.end.format(formatter)
+                + "," + this.isDone;
     }
 
     @Override
