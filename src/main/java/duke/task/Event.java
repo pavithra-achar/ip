@@ -55,15 +55,15 @@ public class Event extends Task {
         case "desc":
             this.description = newValue;
             break;
-        case "start":
+        case "from":
             this.start = LocalDateTime.parse(newValue);
             break;
-        case "end":
+        case "to":
             this.end = LocalDateTime.parse(newValue);
             break;
         default:
             throw new IllegalParameterException("Invalid field for Event task."
-                    + "Only 'desc', 'start', and 'end' are allowed.");
+                    + "Only 'desc', 'from', and 'to' are allowed.");
         }
     }
 
