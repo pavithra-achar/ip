@@ -27,7 +27,7 @@ public class TaskList {
      * @throws TaskNotFoundException If the index is out of bounds.
      */
     public Task remove(int index) throws TaskNotFoundException {
-        if (index <= 0 || index > tasks.size()) {
+        if (index < 0 || index > tasks.size()) {
             throw new TaskNotFoundException();
         }
         return tasks.remove(index);
@@ -75,6 +75,16 @@ public class TaskList {
         return new TaskList(foundTasks);
     }
 
+    /**
+     * Edits a task's field with a new value.
+     *
+     * @param index The 1-based index of the task to edit.
+     * @param field The field to edit (e.g., "desc" for description).
+     * @param newValue The new value to set for the specified field.
+     * @return The edited task.
+     * @throws IllegalParameterException If the parameter is invalid for this task type.
+     * @throws TaskNotFoundException If the index is out of bounds.
+     */
     public Task editTask(String index, String field, String newValue) throws IllegalParameterException, TaskNotFoundException {
         Task task = get(Integer.parseInt(index) - 1);
         try {

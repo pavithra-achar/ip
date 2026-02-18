@@ -9,17 +9,23 @@ import duke.task.Task;
  */
 public class Ui {
 
+    public static final String MARK_DONE = "Task is now complete.";
+    public static final String MARK_UNDONE = "Task is no longer complete.";
+    public static final String TASK_DELETED = "Duly noted. The following task is no longer in the list: \n";
+    public static final String TASK_EDITED = "Thy task hath been updated to: \n";
     private static final String GREETING = "Act I - Scene 1 \nGood day user, I am Verse. Thy words await my wit.\n"
             + "Speak, and declare thy query.\n";
     private static final String FAREWELL = "Final Act \nTill next thou call’st this system forth, farewell.\n";
 
+    private static final String TASK_ADDED = " hath been added to list.";
+
     /**
-     * Displays a message to the user with the prefix "Verse :".
+     * Displays an error message to the user.
      *
-     * @param message The message to be displayed.
+     * @param message The error message to be displayed.
      */
-    public String showMessage(String message) {
-        return message;
+    public String showErrorMessage(String message) {
+        return "err" + message;
     }
 
     /**
@@ -28,12 +34,11 @@ public class Ui {
      * @param header The header message to be displayed before the tasks.
      */
     public String showList(ArrayList<Task> tasks, String header) {
-        String output = showMessage(header);
-        
+        String output = header;
         for (int i = 0; i < tasks.size(); i++) {
             output += "\n" + ((i + 1) + ". " + tasks.get(i));
         }
-        return output;
+        return "list" + output;
     }
 
     /**
@@ -48,5 +53,9 @@ public class Ui {
      */
     public String showFarewell() {
         return FAREWELL;
+    }
+
+    public String showTaskAdded(String desc, int listSize) {
+        return desc + TASK_ADDED + "\n" + "There are " + listSize + " tasks in thy list.";
     }
 }

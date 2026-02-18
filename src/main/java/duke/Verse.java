@@ -29,7 +29,7 @@ public class Verse {
             list = new TaskList(storage.loadTasks());
         } catch (IOException e) {
             DukeException dukeException = new DukeException();
-            ui.showMessage(dukeException.getMessage());
+            ui.showErrorMessage(dukeException.getMessage());
         }
     }
 
@@ -49,10 +49,10 @@ public class Verse {
             String details = parser.getDetails(input);
             return c.execute(this, details);
         } catch (DukeException e) {
-            return ui.showMessage(e.getMessage());
+            return ui.showErrorMessage(e.getMessage());
         } catch (IllegalArgumentException e) {
             DukeException dE = new DukeException();
-            return ui.showMessage(dE.getMessage());
+            return ui.showErrorMessage(dE.getMessage());
         }
     }
 
@@ -79,7 +79,7 @@ public class Verse {
     String markTaskAsDone(int index) throws TaskNotFoundException {
         list.markDone(index - 1);
 
-        return ui.showMessage("Task is now complete.");
+        return Ui.MARK_DONE;
     }
 
     /**
@@ -90,7 +90,7 @@ public class Verse {
     String unmarkTaskAsDone(int index) throws TaskNotFoundException {
         list.unmarkDone(index - 1);
 
-        return ui.showMessage("Task is no longer complete.");
+        return Ui.MARK_UNDONE;
     }
 
     /**
@@ -107,10 +107,7 @@ public class Verse {
         Task toDo = new ToDo(desc);
         list.add(toDo);
 
-        String message = ui.showMessage(desc + " hath been added to list.");
-
-        //Display number of tasks
-        return message + "\n" + ui.showMessage("There are " + list.size() + " tasks in thy list.");
+        return ui.showTaskAdded(desc, list.size());
     }
 
     /**
@@ -127,10 +124,8 @@ public class Verse {
 
         Task deadline = new Deadline(details[0], parser.parseDateTime(details[1]));
         list.add(deadline);
-        String message = ui.showMessage(details[0] + " hath been added to list.");
-
-        //Display number of tasks
-        return message + "\n" + ui.showMessage("There are " + list.size() + " tasks in thy list.");
+        
+        return ui.showTaskAdded(details[0], list.size());
     }
 
     /**
@@ -150,10 +145,7 @@ public class Verse {
                 parser.parseDateTime(details[1]),
                 parser.parseDateTime(details[2]));
         list.add(event);
-        String message = ui.showMessage(details[0] + " hath been added to list.");
-
-        //Display number of tasks
-        return message + "\n" + ui.showMessage("There are " + list.size() + " tasks in thy list.");
+        return ui.showTaskAdded(details[0], list.size());
     }
 
     /**
@@ -169,7 +161,7 @@ public class Verse {
 
         Task task = list.remove(index - 1);
 
-        return ui.showMessage("Duly noted. The following task is no longer in the list: \n" + task);
+        return Ui.TASK_DELETED + task;
     }
 
     String findTasks(String keyword) throws MissingParameterException {
@@ -184,18 +176,17 @@ public class Verse {
     String editTask(String args) throws TaskNotFoundException {
         String[] parts = args.split(" ", 3);
         if (parts.length < 3) {
-            return ui.showMessage("Thy edit command is incomplete. Please specify the task index, field to edit, and new value.");
+            return "Thy edit command is incomplete. Please specify the task index, field to edit, and new value.";
         }
         try {
             Task task = list.editTask(parts[0], parts[1], parts[2]);  
-            return ui.showMessage("Thy task hath been updated to: \n" + task);
+            return Ui.TASK_EDITED + task;
         } catch (IllegalParameterException e) {
-            return ui.showMessage(e.getMessage());
-        }        
+            return ui.showErrorMessage(e.getMessage());
+        }
     }
-    
     /**
-     * Generates a response for the user's chat message.
+     *  * Generates a response for the user's chat message.
      */
     public String greet() {
         return ui.showGreeting();
