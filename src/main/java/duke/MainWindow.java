@@ -1,11 +1,15 @@
 package duke;
 
+import javafx.animation.PauseTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI.
@@ -40,8 +44,9 @@ public class MainWindow extends AnchorPane {
      * the dialog container. Clears the user input after processing.
      */
     @FXML
-    private void handleUserInput() {
+    private void handleUserInput() throws InterruptedException {
         String input = userInput.getText();
+
         String response = verse.handleInput(input);
         if (response.startsWith("err")) {
             dialogContainer.getChildren().addAll(
@@ -58,6 +63,18 @@ public class MainWindow extends AnchorPane {
                     DialogBox.getUserDialog(input, userImage),
                     DialogBox.getDukeDialog(response, verseImage)
             );
+        }
+
+        // Exit the application if the user inputs "bye"
+        if (input.equals("bye")) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+            pause.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.exit(0);
+                }
+            });
+            pause.play(); // Start the pause
         }
         userInput.clear();
     }

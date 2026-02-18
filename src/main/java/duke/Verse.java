@@ -6,6 +6,7 @@ import duke.exception.DukeException;
 import duke.exception.IllegalParameterException;
 import duke.exception.MissingParameterException;
 import duke.exception.TaskNotFoundException;
+import duke.exception.UnknownCommandException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
@@ -28,7 +29,7 @@ public class Verse {
             storage = new Storage("./data", "Verse.txt");
             list = new TaskList(storage.loadTasks());
         } catch (IOException e) {
-            DukeException dukeException = new DukeException();
+            DukeException dukeException = new DukeException("Loading thy tasks from storage hath failed.");
             ui.showErrorMessage(dukeException.getMessage());
         }
     }
@@ -51,8 +52,8 @@ public class Verse {
         } catch (DukeException e) {
             return ui.showErrorMessage(e.getMessage());
         } catch (IllegalArgumentException e) {
-            DukeException dE = new DukeException();
-            return ui.showErrorMessage(dE.getMessage());
+            UnknownCommandException ue = new UnknownCommandException();
+            return ui.showErrorMessage(ue.getMessage());
         }
     }
 

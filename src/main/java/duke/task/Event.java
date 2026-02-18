@@ -62,7 +62,8 @@ public class Event extends Task {
             this.end = LocalDateTime.parse(newValue);
             break;
         default:
-            throw new IllegalParameterException("Invalid field for Event task. Only 'desc', 'start', and 'end' are allowed.");
+            throw new IllegalParameterException("Invalid field for Event task."
+                    + "Only 'desc', 'start', and 'end' are allowed.");
         }
     }
 
