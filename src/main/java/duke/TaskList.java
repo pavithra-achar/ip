@@ -1,6 +1,7 @@
 package duke;
 import java.util.ArrayList;
 
+import duke.exception.IllegalParameterException;
 import duke.exception.TaskNotFoundException;
 import duke.task.Task;
 
@@ -21,7 +22,7 @@ public class TaskList {
     /**
      * Removes a task from the list based on its index.
      *
-     * @param index The 1-based index of the task to remove.
+     * @param index The 0-based index of the task to remove.
      * @return The removed task.
      * @throws TaskNotFoundException If the index is out of bounds.
      */
@@ -29,7 +30,7 @@ public class TaskList {
         if (index <= 0 || index > tasks.size()) {
             throw new TaskNotFoundException();
         }
-        return tasks.remove(index - 1);
+        return tasks.remove(index);
     }
 
     /**
@@ -72,5 +73,15 @@ public class TaskList {
         ArrayList<Task> foundTasks = new ArrayList<>();
         tasks.stream().filter(task -> task.getDescription().contains(keyword)).forEach(foundTasks::add);
         return new TaskList(foundTasks);
+    }
+
+    public Task editTask(String index, String field, String newValue) throws IllegalParameterException, TaskNotFoundException {
+        Task task = get(Integer.parseInt(index) - 1);
+        try {
+            task.editTask(field, newValue);
+        } catch (IllegalParameterException e) {
+            throw new IllegalParameterException(e.getMessage());
+        }
+        return task;
     }
 }

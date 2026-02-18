@@ -64,7 +64,6 @@ public class Parser {
     public String getDetails(String input) {
         String[] parts = input.split(" ", 2);
         boolean hasDetails = parts.length > 1;
-
         return hasDetails ? parts[1] : "";
     }
 

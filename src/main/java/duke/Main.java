@@ -14,9 +14,7 @@ import javafx.stage.WindowEvent;
  * A GUI for Duke using FXML.
  */
 public class Main extends Application {
-
     private final Verse verse = new Verse();
-
     @Override
     public void start(Stage stage) {
         try {
@@ -24,7 +22,7 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setVerse(verse); //inject the Duke instance
+            fxmlLoader.<MainWindow>getController().setVerse(verse);
             stage.show();
 
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {

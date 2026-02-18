@@ -33,6 +33,12 @@ public class Verse {
         }
     }
 
+    /**
+     * Parses user input and executes the corresponding command.
+     *
+     * @param input The user input string.
+     * @return The response message to be displayed to the user.
+     */
     String handleInput(String input) {
         assert storage != null : "Storage should be initialized";
         assert list != null : "TaskList should be initialized";
@@ -115,11 +121,11 @@ public class Verse {
      */
     String createDeadlineTask(String desc) throws MissingParameterException {
         String[] details = parser.parseDeadline(desc);
+        if (details.length != 2) {
+            throw new MissingParameterException("Thy deadline description and date/time shall not be empty.");
+        }
 
-        assert details.length == 2 : "Deadline details should contain description and deadline";
-
-        Task deadline = new Deadline(details[0],
-                parser.parseDateTime(details[1]));
+        Task deadline = new Deadline(details[0], parser.parseDateTime(details[1]));
         list.add(deadline);
         String message = ui.showMessage(details[0] + " hath been added to list.");
 
@@ -136,7 +142,9 @@ public class Verse {
     String createEventTask(String desc) throws MissingParameterException {
         String[] details = parser.parseEvent(desc);
 
-        assert details.length == 3 : "Event details should contain description, start time, and end time";
+        if (details.length != 3) {
+            throw new MissingParameterException("Thy event description, start time, and end time shall not be empty.");
+        }
 
         Task event = new Event(details[0],
                 parser.parseDateTime(details[1]),
@@ -175,19 +183,17 @@ public class Verse {
 
     String editTask(String args) throws TaskNotFoundException {
         String[] parts = args.split(" ", 3);
-        Task task = list.get(Integer.parseInt(parts[0]) - 1);
-
         if (parts.length < 3) {
             return ui.showMessage("Thy edit command is incomplete. Please specify the task index, field to edit, and new value.");
         }
-
         try {
-            task.editTask(parts[1], parts[2]);
+            Task task = list.editTask(parts[0], parts[1], parts[2]);  
+            return ui.showMessage("Thy task hath been updated to: \n" + task);
         } catch (IllegalParameterException e) {
             return ui.showMessage(e.getMessage());
-        }
-        return ui.showMessage("Thy task hath been updated to: \n" + task);
+        }        
     }
+    
     /**
      * Generates a response for the user's chat message.
      */
