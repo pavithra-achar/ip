@@ -125,7 +125,6 @@ public class Verse {
 
         Task deadline = new Deadline(details[0], parser.parseDateTime(details[1]));
         list.add(deadline);
-        
         return ui.showTaskAdded(details[0], list.size());
     }
 
@@ -180,7 +179,7 @@ public class Verse {
             return "Thy edit command is incomplete. Please specify the task index, field to edit, and new value.";
         }
         try {
-            Task task = list.editTask(parts[0], parts[1], parts[2]);  
+            Task task = list.editTask(parts[0], parts[1], parts[2]);
             return Ui.TASK_EDITED + task;
         } catch (IllegalParameterException e) {
             return ui.showErrorMessage(e.getMessage());

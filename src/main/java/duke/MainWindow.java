@@ -68,12 +68,7 @@ public class MainWindow extends AnchorPane {
         // Exit the application if the user inputs "bye"
         if (input.equals("bye")) {
             PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
-            pause.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    System.exit(0);
-                }
-            });
+            pause.setOnFinished(event -> System.exit(0));
             pause.play(); // Start the pause
         }
         userInput.clear();

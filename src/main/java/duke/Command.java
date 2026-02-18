@@ -41,7 +41,7 @@ public enum Command {
     },
     LIST {
         @Override
-        String execute(Verse bot, String args) throws TaskNotFoundException {
+        String execute(Verse bot, String args) {
             return bot.listTasks();
         }
     },
@@ -65,7 +65,7 @@ public enum Command {
     },
     EDIT {
         @Override
-        String execute(Verse bot, String args) throws MissingParameterException, TaskNotFoundException {
+        String execute(Verse bot, String args) throws TaskNotFoundException {
             return bot.editTask(args);
         }
     };

@@ -85,7 +85,8 @@ public class TaskList {
      * @throws IllegalParameterException If the parameter is invalid for this task type.
      * @throws TaskNotFoundException If the index is out of bounds.
      */
-    public Task editTask(String index, String field, String newValue) throws IllegalParameterException, TaskNotFoundException {
+    public Task editTask(String index, String field, String newValue)
+            throws IllegalParameterException, TaskNotFoundException {
         Task task = get(Integer.parseInt(index) - 1);
         try {
             task.editTask(field, newValue);

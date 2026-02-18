@@ -46,7 +46,8 @@ public class Event extends Task {
      * @return A string in the format "event,description,start,end,isDone".
      */
     public String getFileString() {
-        return EVENT_ID + "," + this.description + "," + this.start + "," + this.end + "," + this.isDone;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return EVENT_ID + "," + this.description + "," + this.start.format(formatter) + "," + this.end.format(formatter) + "," + this.isDone;
     }
 
     @Override

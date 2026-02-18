@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -23,16 +24,12 @@ public class Main extends Application {
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             stage.setTitle("Verse");
-            stage.getIcons().add(new javafx.scene.image.Image(this.getClass().getResourceAsStream("/images/verse.png")));
+            Image icon = new Image(this.getClass().getResourceAsStream("/images/verse.png"));
+            stage.getIcons().add(icon);
             fxmlLoader.<MainWindow>getController().setVerse(verse);
             stage.show();
 
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent windowEvent) {
-                    verse.handleInput("bye");
-                }
-            });
+            stage.setOnCloseRequest(windowEvent -> verse.handleInput("bye"));
         } catch (IOException e) {
             e.printStackTrace();
         }
