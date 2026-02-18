@@ -22,6 +22,8 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setTitle("Verse");
+            stage.getIcons().add(new javafx.scene.image.Image(this.getClass().getResourceAsStream("/images/verse.png")));
             fxmlLoader.<MainWindow>getController().setVerse(verse);
             stage.show();
 
