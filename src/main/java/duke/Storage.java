@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 import duke.exception.MissingParameterException;
 import duke.exception.UnknownCommandException;
@@ -20,6 +19,13 @@ import duke.task.ToDo;
 public class Storage {
     private final File file;
 
+    /**
+     * Constructs a Storage object with the specified folder path and file name.
+     *
+     * @param folderPath The path to the folder where the file is located.
+     * @param fileName The name of the file to load from and save to.
+     * @throws IOException If an I/O error occurs while creating the file or folder.
+     */
     public Storage(String folderPath, String fileName) throws IOException {
         File folder = new File(folderPath);
         if (!folder.exists()) {

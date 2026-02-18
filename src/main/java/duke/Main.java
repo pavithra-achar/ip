@@ -15,7 +15,7 @@ import javafx.stage.WindowEvent;
  */
 public class Main extends Application {
 
-    private Verse duke = new Verse();
+    private final Verse verse = new Verse();
 
     @Override
     public void start(Stage stage) {
@@ -24,13 +24,13 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setVerse(duke); //inject the Duke instance
+            fxmlLoader.<MainWindow>getController().setVerse(verse); //inject the Duke instance
             stage.show();
 
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent windowEvent) {
-                    duke.handleInput("bye");
+                    verse.handleInput("bye");
                 }
             });
         } catch (IOException e) {

@@ -3,9 +3,9 @@ package duke;
 import java.io.IOException;
 
 import duke.exception.DukeException;
+import duke.exception.IllegalParameterException;
 import duke.exception.MissingParameterException;
 import duke.exception.TaskNotFoundException;
-import duke.exception.IllegalParameterException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
@@ -20,6 +20,9 @@ public class Verse {
     private Storage storage;
     private Parser parser = new Parser();
 
+    /**
+     * Constructs a Verse object and initializes the task list from storage.
+     */
     public Verse() {
         try {
             storage = new Storage("./data", "Verse.txt");
@@ -35,7 +38,6 @@ public class Verse {
         assert list != null : "TaskList should be initialized";
         assert ui != null : "UI should be initialized";
         assert parser != null : "Parser should be initialized";
-        
         try {
             Command c = parser.parseCommand(input);
             String details = parser.getDetails(input);

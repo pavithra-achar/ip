@@ -2,6 +2,9 @@ package duke.task;
 
 import duke.exception.IllegalParameterException;
 
+/**
+ * Represents a ToDo task with a description and completion status.
+ */
 public class ToDo extends Task {
 
     public static final String TODO_ID_SHORT = "T";
@@ -21,12 +24,10 @@ public class ToDo extends Task {
 
     @Override
     public void editTask(String parameter, String newValue) throws IllegalParameterException {
-        switch(parameter) {
-            case "desc":
-                this.description = newValue;
-                break;
-            default:
-                throw new IllegalParameterException("Invalid field for ToDo task. Only 'desc' is allowed.");
+        if (parameter.equals("desc")) {
+            this.description = newValue;
+        } else {
+            throw new IllegalParameterException("Invalid field for ToDo task. Only 'desc' is allowed.");
         }
     }
 
@@ -34,6 +35,4 @@ public class ToDo extends Task {
     public String toString() {
         return "[" + TODO_ID_SHORT + "]" + super.toString();
     }
-
-
 }

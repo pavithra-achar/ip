@@ -4,6 +4,10 @@ import duke.exception.DukeException;
 import duke.exception.MissingParameterException;
 import duke.exception.TaskNotFoundException;
 
+/**
+ * Enum representing the supported commands of the chatbot.
+ * Each command has an associated method to execute the command's functionality.
+ */
 public enum Command {
     BYE {
         @Override

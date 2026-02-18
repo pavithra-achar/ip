@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import duke.exception.TaskNotFoundException;
 import duke.task.Task;
 
+/**
+ * Represents a list of tasks in the Verse application.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
@@ -15,6 +18,13 @@ public class TaskList {
         tasks.add(task);
     }
 
+    /**
+     * Removes a task from the list based on its index.
+     *
+     * @param index The 1-based index of the task to remove.
+     * @return The removed task.
+     * @throws TaskNotFoundException If the index is out of bounds.
+     */
     public Task remove(int index) throws TaskNotFoundException {
         if (index <= 0 || index > tasks.size()) {
             throw new TaskNotFoundException();
@@ -22,6 +32,13 @@ public class TaskList {
         return tasks.remove(index - 1);
     }
 
+    /**
+     * Retrieves a task from the list based on its index.
+     *
+     * @param index The 1-based index of the task to retrieve.
+     * @return The task at the specified index.
+     * @throws TaskNotFoundException If the index is out of bounds.
+     */
     public Task get(int index) throws TaskNotFoundException {
         if (index < 0 || index > tasks.size()) {
             throw new TaskNotFoundException();
@@ -45,6 +62,12 @@ public class TaskList {
         get(index).setDoneStatus(false);
     }
 
+    /**
+     * Finds tasks that contain the specified keyword in their description.
+     *
+     * @param keyword The keyword to search for in task descriptions.
+     * @return A new TaskList containing tasks that match the keyword.
+     */
     public TaskList findTasks(String keyword) {
         ArrayList<Task> foundTasks = new ArrayList<>();
         tasks.stream().filter(task -> task.getDescription().contains(keyword)).forEach(foundTasks::add);
