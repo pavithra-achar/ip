@@ -1,6 +1,7 @@
 package duke;
 
 import duke.exception.DukeException;
+import duke.exception.IllegalParameterException;
 import duke.exception.MissingParameterException;
 import duke.exception.TaskNotFoundException;
 
@@ -23,8 +24,15 @@ public enum Command {
     },
     DELETE {
         @Override
-        String execute(Verse bot, String args) throws TaskNotFoundException {
-            return bot.deleteTask(Integer.parseInt(args));
+        String execute(Verse bot, String args) throws DukeException {
+            if (args.isEmpty()) {
+                throw new MissingParameterException("Thy task index shall not be empty.");
+            }
+            try {
+                return bot.deleteTask(Integer.parseInt(args));
+            } catch (NumberFormatException e) {
+                throw new IllegalParameterException("Thy task index must be a number.");
+            }
         }
     },
     EVENT {
@@ -47,8 +55,15 @@ public enum Command {
     },
     MARK {
         @Override
-        String execute(Verse bot, String args) throws TaskNotFoundException {
-            return bot.markTaskAsDone(Integer.parseInt(args));
+        String execute(Verse bot, String args) throws DukeException {
+            if (args.isEmpty()) {
+                throw new MissingParameterException("Thy task index shall not be empty.");
+            }
+            try {
+                return bot.markTaskAsDone(Integer.parseInt(args));
+            } catch (NumberFormatException e) {
+                throw new IllegalParameterException("Thy task index must be a number.");
+            }
         }
     },
     TODO {
@@ -59,8 +74,15 @@ public enum Command {
     },
     UNMARK {
         @Override
-        String execute(Verse bot, String args) throws TaskNotFoundException {
-            return bot.unmarkTaskAsDone(Integer.parseInt(args));
+        String execute(Verse bot, String args) throws DukeException {
+            if (args.isEmpty()) {
+                throw new MissingParameterException("Thy task index shall not be empty.");
+            }
+            try {
+                return bot.unmarkTaskAsDone(Integer.parseInt(args));
+            } catch (NumberFormatException e) {
+                throw new IllegalParameterException("Thy task index must be a number.");
+            }
         }
     },
     EDIT {
